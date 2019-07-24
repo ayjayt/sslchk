@@ -1,4 +1,5 @@
-package main
+// sslchk is a package to help you print out information about certificates
+package sslchk
 
 import (
 	"crypto/tls"
