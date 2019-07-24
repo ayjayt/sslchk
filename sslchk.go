@@ -6,13 +6,14 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/ayjayt/ilog"
 	"net"
 	"os"
 	"strconv"
 	"strings"
 	"text/tabwriter"
 	"time"
+
+	"github.com/ayjayt/ilog"
 )
 
 var defaultLogger ilog.LoggerInterface
