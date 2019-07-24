@@ -4,8 +4,10 @@ package sslchk
 import (
 	"crypto/tls"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"github.com/ayjayt/ilog"
+	"net"
 	"os"
 	"strconv"
 	"strings"
@@ -47,12 +49,15 @@ func (c *CheckReturn) Out() {
 }
 
 func CheckHost(host string) (map[string]CheckReturn, error) {
-	// get ip
-	conn, err := tls.Dial("tcp", fmt.Sprintf("%s:443", host), nil)
-	certs := make(map[string]CheckReturn, len(conn.ConnectionState().PeerCertificates))
+	dialer := net.Dialer{Timeout: 1 * time.Second}
+	conn, err := tls.DialWithDialer(&dialer, "tcp", fmt.Sprintf("%s:443", host), nil)
 	if err != nil {
 		return nil, err
 	}
+	if conn.ConnectionState().PeerCertificates == nil || conn.ConnectionState().VerifiedChains == nil {
+		return nil, errors.New("No certificates")
+	}
+	certs := make(map[string]CheckReturn, len(conn.ConnectionState().PeerCertificates))
 	for _, chain := range conn.ConnectionState().VerifiedChains {
 		for _, cert := range chain {
 			sig := base64.StdEncoding.EncodeToString(cert.Signature)
