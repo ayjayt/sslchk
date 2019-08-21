@@ -25,11 +25,13 @@ func init() {
 	}
 }
 
+var minWidth = 15
+
 func CutString(input string) string {
-	if len(input) < 15 {
+	if len(input) < minWidth-1 {
 		return input
 	}
-	return input[0:15] + "..."
+	return input[0:minWidth-4] + "..."
 }
 
 type CheckReturn struct {
@@ -44,7 +46,7 @@ type CheckReturn struct {
 }
 
 func (c *CheckReturn) Out() {
-	w := tabwriter.NewWriter(os.Stdout, 20, 2, 2, '.', tabwriter.Debug)
+	w := tabwriter.NewWriter(os.Stdout, minWidth, 1, 1, '.', tabwriter.Debug)
 	fmt.Fprintln(w, CutString(c.Host)+"\t"+CutString(c.IP)+"\t"+CutString(c.CA)+"\t"+CutString(c.Serial)+"\t"+CutString(c.Issuer)+"\t"+CutString(c.Subject)+"\t"+CutString(c.DNS)+"\t"+CutString(c.TimeLeft)+"\t")
 	w.Flush()
 }
