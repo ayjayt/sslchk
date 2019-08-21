@@ -47,7 +47,7 @@ type CheckReturn struct {
 
 func (c *CheckReturn) Out() {
 	w := tabwriter.NewWriter(os.Stdout, minWidth, 1, 1, '.', tabwriter.Debug)
-	fmt.Fprintln(w, CutString(c.Host)+"\t"+CutString(c.IP)+"\t"+CutString(c.CA)+"\t"+CutString(c.Serial)+"\t"+CutString(c.Issuer)+"\t"+CutString(c.Subject)+"\t"+CutString(c.DNS)+"\t"+CutString(c.TimeLeft)+"\t")
+	fmt.Fprintln(w, CutString(c.Host)+"\t"+CutString(c.IP)+"\t"+CutString(c.CA)+"\t"+CutString(c.Serial)+"\t"+CutString(c.Issuer)+"\t"+CutString(c.Subject)+"\t"+CutString(c.TimeLeft)+"\t")
 	w.Flush()
 }
 
